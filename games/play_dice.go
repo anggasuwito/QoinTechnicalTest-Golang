@@ -15,6 +15,7 @@ type DiceGameModel struct {
 
 func PlayDice(totalPlayer, totalDice int) {
 	var players []DiceGameModel
+	playerOut := make(map[int]bool)
 	gameRound := 1
 	for {
 		fmt.Println(fmt.Sprintf("Game ke %v", gameRound))
@@ -57,15 +58,15 @@ func PlayDice(totalPlayer, totalDice int) {
 			}
 
 			//third process : remove player who has no dice
-			if players[i].TotalDice <= 0 {
-				totalPlayer--
+			if players[i].TotalDice == 0 {
+				playerOut[players[i].Name] = true
 			}
 			fmt.Println(fmt.Sprintf("Evaluasi Player ke %v, Score %v , Point Dadu %v", players[i].Name, players[i].Score, players[i].EvaluatedPoints))
 		}
 
 		//find the winner
 		fmt.Println(fmt.Sprintf("Sisa Player Adalah %v", totalPlayer))
-		if totalPlayer <= 1 {
+		if len(playerOut) >= totalPlayer {
 			var highScorePlayer DiceGameModel
 			for _, player := range players {
 				if player.Score > highScorePlayer.Score && player.TotalDice == 0 {
