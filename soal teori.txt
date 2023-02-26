@@ -1,0 +1,66 @@
+DB_RESTO
+
+table menu
+id
+name
+price
+type (desert/makanan/minuman)
+created_at
+updated_at
+deleted_at
+
+table stocks
+id
+name
+stock_available
+created_at
+updated_at
+deleted_at
+
+table admin
+id
+name
+address
+username
+role (owner/manager/cashier)
+password
+created_at
+updated_at
+deleted_at
+
+table orders
+id
+admin_id
+table_name
+total_price
+status (preparing/served/payed)
+created_at
+updated_at
+deleted_at
+
+table detail_orders
+id
+orders_id
+menu_id
+quantity
+created_at
+updated_at
+deleted_at
+
+-------------------------------------------------------------------------------------------
+- untuk proses pembuatan aplikasi kalau menurut saya jika mengikuti perkembangan zaman saat ini kita membutuhkan 2 sistem
+
+1. yang pertama sistem aplikasi untuk admin yang biasanya dijalankan lewat PC dimana tampilan awalnya adalah login page.
+login page ini akan mengarahkan ke halaman yang berbeda beda sesuai dengan role yang login, contoh : saat login dengan role owner
+maka akan muncul semua halaman yang dapat diakses seperti tambah pegawai berdasarkan role, lihat summary harian mingguan atau bulanan dimana akan muncul berapa orders yang selesai pada saat itu, tambah menu, tambah stock menunya, maupun menerima pesanan
+untuk role manager kira-kira hanya akan muncul menu tambah stock menunya untuk update ketersediaannya menunya setiap hari
+untuk role cashier kira-kira hanya akan muncul menu pesanan dimana pada menu ini, cashier yang bertugas bisa melihat pesanan yang belum dibayar dan mengubah statusnya menjadi sudah dibayar jika pelanggan selesai melakukan pembayaran
+
+2. yang kedua adalah sistem pemesanan dari sisi pelanggan dimana saat ini biasanya sistem ini berjalan dengan mengscan barkode yang tersedia di meja-meja.
+setelah barkode berhasil terscan maka sistemnya akan mengarah ke halaman website list menu, dimana pelanggan bisa memasukkan atau memilih menu yang diinginkan dengan jumlah yang diinginkan ke dalam keranjang.
+pesanan tersebut akan masuk ke dalam sistem admin dan cashier yang bertugas akan memproses pesanan tersebut.
+setelah selesai menikmati makanan dan minumannya, pelanggan pergi ke kasir untuk proses pembayaran dan memberitahukan nomor mejanya pada kasir.
+kasir akan mengkonfirmasi kembali pesanannya sebelum mencetak struknya atau mengubah statusnya. setelah dibayar , status pesanannya diubah ke terbayar dan kasir akan memberikan struk yang tercetak.
+
+- kedua sistem tersebut berjalan pada sebuah database yang sama agar ketika pelanggan melakukan pesanan, pelanggan dapat melihat status ketersediaan menunya
+yang diupdate harian oleh manager atau ownernya.
