@@ -15,7 +15,6 @@ type DiceGameModel struct {
 
 func PlayDice(totalPlayer, totalDice int) {
 	var players []DiceGameModel
-	playerOut := make(map[int]bool)
 	gameRound := 1
 	for {
 		fmt.Println(fmt.Sprintf("Game ke %v", gameRound))
@@ -37,6 +36,7 @@ func PlayDice(totalPlayer, totalDice int) {
 		}
 
 		//evaluate points and count dice
+		var playerOut int
 		for i := 0; i < len(players); i++ {
 			//first process : remove dice with point 1,remove and add score dice with point 6, and keep the rest
 			players[i].EvaluatedPoints = []int{}
@@ -53,20 +53,23 @@ func PlayDice(totalPlayer, totalDice int) {
 
 			//second process : add dice with point one from beside player and still active
 			for j := 0; j < CountPointOne(ActivePlayerPoints(i, players)); j++ {
-				players[i].TotalDice++
-				players[i].EvaluatedPoints = append(players[i].EvaluatedPoints, 1)
+				if len(players[i].Points) != 0 {
+					players[i].TotalDice++
+					players[i].EvaluatedPoints = append(players[i].EvaluatedPoints, 1)
+				}
 			}
 
 			//third process : remove player who has no dice
 			if players[i].TotalDice == 0 {
-				playerOut[players[i].Name] = true
+				playerOut++
 			}
 			fmt.Println(fmt.Sprintf("Evaluasi Player ke %v, Score %v , Point Dadu %v", players[i].Name, players[i].Score, players[i].EvaluatedPoints))
 		}
 
 		//find the winner
 		fmt.Println(fmt.Sprintf("Sisa Player Adalah %v", totalPlayer))
-		if len(playerOut) >= totalPlayer {
+		fmt.Println("-------------------------------------------------")
+		if playerOut >= totalPlayer-1 {
 			var highScorePlayer DiceGameModel
 			for _, player := range players {
 				if player.Score > highScorePlayer.Score && player.TotalDice == 0 {
@@ -83,20 +86,22 @@ func PlayDice(totalPlayer, totalDice int) {
 func ActivePlayerPoints(order int, players []DiceGameModel) []int {
 	//logic to find active player
 	besidePlayer := order - 1
-	for {
+	for i := len(players) - 1; i >= 0; i-- {
 		if besidePlayer < 0 {
 			besidePlayer = len(players) - 1
 		}
 
-		if players[besidePlayer].TotalDice != 0 {
+		if len(players[besidePlayer].Points) != 0 {
 			return players[besidePlayer].Points
 		}
 
 		if besidePlayer == order {
-			return []int{}
+			break
 		}
+
 		besidePlayer--
 	}
+	return []int{}
 }
 
 func CountPointOne(nums []int) int {

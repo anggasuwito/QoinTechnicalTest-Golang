@@ -8,5 +8,5 @@ import (
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	games.PlayDice(4, 4)
+	games.PlayDice(5, 4)
 }
