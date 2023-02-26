@@ -52,7 +52,7 @@ func PlayDice(totalPlayer, totalDice int) {
 			}
 
 			//second process : add dice with point one from beside player and still active
-			for j := 0; j < CountPointOne(ActivePlayerPoints(i, players)); j++ {
+			for j := 0; j < BesidePlayerThrowedDice(i, players); j++ {
 				if len(players[i].Points) != 0 {
 					players[i].TotalDice++
 					players[i].EvaluatedPoints = append(players[i].EvaluatedPoints, 1)
@@ -83,7 +83,7 @@ func PlayDice(totalPlayer, totalDice int) {
 	}
 }
 
-func ActivePlayerPoints(order int, players []DiceGameModel) []int {
+func BesidePlayerThrowedDice(order int, players []DiceGameModel) int {
 	//logic to find active player
 	besidePlayer := order - 1
 	for i := len(players) - 1; i >= 0; i-- {
@@ -92,7 +92,7 @@ func ActivePlayerPoints(order int, players []DiceGameModel) []int {
 		}
 
 		if len(players[besidePlayer].Points) != 0 {
-			return players[besidePlayer].Points
+			return CountPointOne(players[besidePlayer].Points)
 		}
 
 		if besidePlayer == order {
@@ -101,7 +101,7 @@ func ActivePlayerPoints(order int, players []DiceGameModel) []int {
 
 		besidePlayer--
 	}
-	return []int{}
+	return 0
 }
 
 func CountPointOne(nums []int) int {
